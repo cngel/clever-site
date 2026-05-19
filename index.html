@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Clever Innovaction</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+    }
+
+    :root {
+      --primary: #00AFFF;
+      --secondary: #38BDF8;
+      --dark: #030712;
+      --dark-soft: #071120;
+      --card: rgba(9, 20, 38, 0.78);
+      --border: rgba(255,255,255,0.08);
+      --white: #ffffff;
+      --text: rgba(255,255,255,0.74);
+      --shadow: 0 20px 60px rgba(0,0,0,0.45);
+      --glow: 0 0 30px rgba(0,175,255,0.35);
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: radial-gradient(circle at top, #0c1d36 0%, #030712 55%);
+      color: var(--white);
+      overflow-x: hidden;
+      line-height: 1.7;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+      background-size: 70px 70px;
+      opacity: 0.4;
+      pointer-events: none;
+      z-index: -2;
+    }
+
+    nav {
+      position: fixed;
+      width: 100%;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 24px 8%;
+      backdrop-filter: blur(18px);
+      background: rgba(3,7,18,0.55);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 1.2rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    .logo i {
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 14px;
+      background: rgba(0,175,255,0.12);
+      color: var(--primary);
+      box-shadow: var(--glow);
+    }
+
+    nav ul {
+      display: flex;
+      gap: 35px;
+      list-style: none;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: rgba(255,255,255,0.85);
+      font-weight: 500;
+      transition: .3s;
+      position: relative;
+    }
+
+    nav ul li a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -8px;
+      width: 0;
+      height: 2px;
+      background: var(--primary);
+      transition: .3s;
+    }
+
+    nav ul li a:hover::after {
+      width: 100%;
+    }
+
+    .hero {
+      min-height: 100vh;
+      padding: 180px 8% 100px;
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      right: -120px;
+      top: -120px;
+      width: 550px;
+      height: 550px;
+      background: radial-gradient(circle, rgba(0,175,255,0.25), transparent 70%);
+      filter: blur(60px);
+    }
+
+    .hero-content {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .hero-text small {
+      color: var(--secondary);
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      font-weight: 700;
+    }
+
+    .hero-text h1 {
+      font-size: clamp(3.5rem, 7vw, 6.2rem);
+      line-height: 1;
+      margin: 25px 0;
+      font-weight: 800;
+      max-width: 780px;
+    }
+
+    .hero-text h1 span {
+      color: var(--primary);
+      text-shadow: var(--glow);
+    }
+
+    .hero-text p {
+      max-width: 640px;
+      color: var(--text);
+      font-size: 1.1rem;
+      margin-bottom: 40px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 16px 34px;
+      border-radius: 14px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: .35s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #00AFFF, #38BDF8);
+      color: white;
+      box-shadow: 0 10px 40px rgba(0,175,255,0.35);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-4px);
+    }
+
+    .btn-secondary {
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.04);
+      color: white;
+      backdrop-filter: blur(12px);
+    }
+
+    .corporate-panel {
+      position: relative;
+      background: linear-gradient(145deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 34px;
+      padding: 24px;
+      backdrop-filter: blur(20px);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .corporate-panel::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(145deg, rgba(0,175,255,0.12), transparent 60%);
+      pointer-events: none;
+    }
+
+    .corporate-panel img {
+      width: 100%;
+      border-radius: 24px;
+      display: block;
+    }
+
+    section {
+      padding: 120px 8%;
+      position: relative;
+    }
+
+    .section-title {
+      max-width: 850px;
+      margin-bottom: 70px;
+    }
+
+    .section-title small {
+      color: var(--secondary);
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      font-weight: 700;
+    }
+
+    .section-title h2 {
+      font-size: clamp(2.5rem, 5vw, 4.5rem);
+      margin-top: 18px;
+      line-height: 1.1;
+    }
+
+    .section-title p {
+      margin-top: 22px;
+      color: var(--text);
+      max-width: 700px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 28px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      padding: 38px;
+      backdrop-filter: blur(20px);
+      transition: .45s ease;
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .card:hover {
+      transform: translateY(-12px);
+      border-color: rgba(0,175,255,0.4);
+      box-shadow: 0 30px 80px rgba(0,175,255,0.18);
+    }
+
+    .card i {
+      width: 78px;
+      height: 78px;
+      border-radius: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,175,255,0.1);
+      color: var(--primary);
+      font-size: 1.8rem;
+      margin-bottom: 28px;
+      box-shadow: var(--glow);
+    }
+
+    .card h3 {
+      font-size: 1.45rem;
+      margin-bottom: 16px;
+    }
+
+    .card p {
+      color: var(--text);
+    }
+
+    .faq-item {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 22px;
+      margin-bottom: 20px;
+      overflow: hidden;
+    }
+
+    .faq-question {
+      padding: 24px;
+      cursor: pointer;
+      font-weight: 600;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .faq-answer {
+      display: none;
+      padding: 0 24px 24px;
+      color: var(--text);
+    }
+
+    .contact-box {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 35px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    input, textarea {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      padding: 18px;
+      color: white;
+      outline: none;
+    }
+
+    footer {
+      padding: 70px 8%;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      background: rgba(255,255,255,0.02);
+      text-align: center;
+    }
+
+    .socials {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin-top: 25px;
+    }
+
+    .socials a {
+      width: 55px;
+      height: 55px;
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      color: white;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      transition: .3s;
+    }
+
+    .socials a:hover {
+      background: var(--primary);
+      transform: translateY(-6px);
+    }
+
+    .fade-up {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all .9s ease;
+    }
+
+    .fade-up.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media(max-width: 980px) {
+      .hero-content {
+        grid-template-columns: 1fr;
+      }
+
+      nav ul {
+        display: none;
+      }
+
+      .hero {
+        text-align: center;
+      }
+
+      .hero-buttons {
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="grid-bg"></div>
+
+  <nav>
+    <div class="logo">
+      <i class="fa-solid fa-microchip"></i>
+      Clever Innovaction
+    </div>
+
+    <ul>
+      <li><a href="#sobre">Sobre</a></li>
+      <li><a href="#servicos">Serviços</a></li>
+      <li><a href="#projectos">Projectos</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+    </ul>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-text fade-up">
+        <h1>Tecnologia que conecta <span>ideias</span>, pessoas e futuros.</h1>
+        <p>
+          Desenvolvemos soluções digitais inovadoras que transformam negócios, impulsionam serviços e criam impacto positivo através da tecnologia.
+        </p>
+
+        <div class="hero-buttons">
+          <a href="#servicos" class="btn btn-primary">Explorar Serviços</a>
+          <a href="#contacto" class="btn btn-secondary">Falar Connosco</a>
+        </div>
+      </div>
+
+      <div class="hero-visual fade-up">
+        <div class="logo-card">
+          <img src="/mnt/data/7DECA00D-7507-4F11-94D9-5EA41027FE7B.jpeg" alt="Clever Innovaction Logo">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="sobre">
+    <div class="section-title fade-up">
+      <span>Sobre Nós</span>
+      <h2>Inovação, criatividade e tecnologia avançada</h2>
+      <p>
+        A Clever Innovaction é uma startup tecnológica angolana focada em criar soluções modernas, inteligentes e impactantes para empresas e instituições.
+      </p>
+    </div>
+
+    <div class="about-content">
+      <div class="card fade-up">
+        <i class="fa-solid fa-bullseye"></i>
+        <h3>Missão</h3>
+        <p>Criar soluções digitais inovadoras que impulsionam negócios e transformam experiências.</p>
+      </div>
+
+      <div class="card fade-up">
+        <i class="fa-solid fa-eye"></i>
+        <h3>Visão</h3>
+        <p>Ser referência tecnológica em Angola e em África através da inovação e criatividade.</p>
+      </div>
+
+      <div class="card fade-up">
+        <i class="fa-solid fa-gem"></i>
+        <h3>Valores</h3>
+        <p>Compromisso, inovação, profissionalismo, qualidade e impacto positivo na comunidade.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="servicos">
+    <div class="section-title fade-up">
+      <span>Serviços</span>
+      <h2>Soluções tecnológicas premium</h2>
+    </div>
+
+    <div class="grid">
+      <div class="card fade-up">
+        <i class="fa-solid fa-code"></i>
+        <h3>Desenvolvimento Web</h3>
+        <p>Websites e plataformas modernas, rápidas e responsivas para empresas e startups.</p>
+      </div>
+
+      <div class="card fade-up">
+        <i class="fa-solid fa-mobile-screen"></i>
+        <h3>Aplicativos</h3>
+        <p>Aplicações móveis intuitivas e modernas focadas na melhor experiência do utilizador.</p>
+      </div>
+
+      <div class="card fade-up">
+        <i class="fa-solid fa-building"></i>
+        <h3>Sistemas Empresariais</h3>
+        <p>Sistemas inteligentes para optimizar processos empresariais e aumentar produtividade.</p>
+      </div>
+
+      <div class="card fade-up">
+        <i class="fa-solid fa-pen-ruler"></i>
+        <h3>UI/UX Design</h3>
+        <p>Interfaces modernas, elegantes e pensadas para proporcionar experiências premium.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="projectos">
+    <div class="section-title fade-up">
+      <span>Projectos</span>
+      <h2>Inovação aplicada em soluções reais</h2>
+    </div>
+
+    <div class="grid">
+      <div class="card project-card fade-up">
+        <i class="fa-solid fa-robot"></i>
+        <h3>IA Escolar</h3>
+        <p>Sistema inteligente criado para auxiliar alunos e encarregados de educação do Instituto Médio Sanda Ana.</p>
+      </div>
+
+      <div class="card project-card fade-up">
+        <i class="fa-solid fa-cart-shopping"></i>
+        <h3>Marketplace</h3>
+        <p>Plataforma moderna onde alunos podem publicar e vender produtos de forma prática.</p>
+      </div>
+
+      <div class="card project-card fade-up">
+        <i class="fa-solid fa-gamepad"></i>
+        <h3>Angola: A Origem da Terra Abençoada</h3>
+        <p>Jogo educativo focado na história de Angola antes da chegada dos portugueses.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-title fade-up">
+      <span>FAQ</span>
+      <h2>Perguntas Frequentes</h2>
+    </div>
+
+    <div class="faq">
+      <div class="faq-item fade-up">
+        <div class="faq-question">Quais serviços a Clever Innovaction oferece? <span>+</span></div>
+        <div class="faq-answer">Oferecemos desenvolvimento web, aplicativos, sistemas empresariais, UI/UX Design e soluções tecnológicas inteligentes.</div>
+      </div>
+
+      <div class="faq-item fade-up">
+        <div class="faq-question">A empresa trabalha com projectos personalizados? <span>+</span></div>
+        <div class="faq-answer">Sim. Desenvolvemos soluções adaptadas às necessidades específicas de cada cliente.</div>
+      </div>
+
+      <div class="faq-item fade-up">
+        <div class="faq-question">Como posso entrar em contacto? <span>+</span></div>
+        <div class="faq-answer">Pode entrar em contacto através do formulário, WhatsApp ou redes sociais.</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contacto">
+    <div class="section-title fade-up">
+      <span>Contacto</span>
+      <h2>Vamos construir o futuro juntos</h2>
+    </div>
+
+    <div class="contact-box">
+      <div class="card fade-up">
+        <h3>Entre em contacto</h3>
+        <p style="margin: 20px 0; color: rgba(255,255,255,0.7);">
+          Fale connosco para transformar ideias em soluções digitais modernas.
+        </p>
+
+        <div class="socials" style="justify-content: flex-start;">
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-linkedin-in"></i></a>
+          <a href="#"><i class="fab fa-github"></i></a>
+        </div>
+      </div>
+
+      <div class="card fade-up">
+        <form>
+          <input type="text" placeholder="Seu nome">
+          <input type="email" placeholder="Seu email">
+          <textarea placeholder="Digite a sua mensagem"></textarea>
+          <button class="btn btn-primary">Enviar Mensagem</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <h3>Clever Innovaction</h3>
+    <p>Inovação e Criatividade</p>
+
+    <div class="socials">
+      <a href="#"><i class="fab fa-instagram"></i></a>
+      <a href="#"><i class="fab fa-facebook-f"></i></a>
+      <a href="#"><i class="fab fa-linkedin-in"></i></a>
+      <a href="#"><i class="fab fa-github"></i></a>
+    </div>
+
+    <p style="margin-top: 25px;">© 2026 Clever Innovaction. Todos os direitos reservados.</p>
+  </footer>
+
+  <a href="#" class="whatsapp">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+
+  <script>
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting) {
+          entry.target.classList.add('show');
+        }
+      });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+    const faqQuestions = document.querySelectorAll('.faq-question');
+
+    faqQuestions.forEach(question => {
+      question.addEventListener('click', () => {
+        const answer = question.nextElementSibling;
+        answer.style.display = answer.style.display === 'block' ? 'none' : 'block';
+      });
+    });
+  </script>
+</body>
+</html>
