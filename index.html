@@ -1,703 +1,2126 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Clever Innovaction</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      scroll-behavior: smooth;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clever Innovaction — Inovação e Criatividade</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+:root {
+  --bg-deep: #040d18;
+  --bg-dark: #071120;
+  --bg-mid: #0a1a2e;
+  --bg-card: #0d2040;
+  --blue-tech: #0F2B46;
+  --neon: #00AFFF;
+  --cyan: #38BDF8;
+  --white: #FFFFFF;
+  --text-muted: #7ba3c4;
+  --text-soft: #a8c4dc;
+  --glow-neon: 0 0 20px rgba(0,175,255,0.5), 0 0 60px rgba(0,175,255,0.2);
+  --glow-soft: 0 0 40px rgba(0,175,255,0.15);
+  --border-glow: rgba(0,175,255,0.2);
+}
 
-    :root {
-      --primary: #00AFFF;
-      --secondary: #38BDF8;
-      --dark: #071120;
-      --dark-2: #0F2B46;
-      --white: #ffffff;
-      --glass: rgba(255,255,255,0.06);
-      --border: rgba(255,255,255,0.12);
-      --shadow: 0 0 25px rgba(0,175,255,0.35);
-    }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    body {
-      font-family: 'Inter', sans-serif;
-      background: var(--dark);
-      color: var(--white);
-      overflow-x: hidden;
-      line-height: 1.6;
-    }
+html { scroll-behavior: smooth; font-size: 16px; }
 
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      background:
-        radial-gradient(circle at top left, rgba(0,175,255,0.12), transparent 30%),
-        radial-gradient(circle at bottom right, rgba(56,189,248,0.1), transparent 30%);
-      pointer-events: none;
-      z-index: -2;
-    }
+body {
+  background: var(--bg-deep);
+  color: var(--white);
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  overflow-x: hidden;
+  cursor: none;
+}
 
-    .grid-bg {
-      position: fixed;
-      inset: 0;
-      background-image:
-        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
-      background-size: 40px 40px;
-      z-index: -3;
-      opacity: 0.3;
-    }
+/* CUSTOM CURSOR */
+.cursor {
+  width: 8px; height: 8px;
+  background: var(--neon);
+  border-radius: 50%;
+  position: fixed;
+  top: 0; left: 0;
+  pointer-events: none;
+  z-index: 9999;
+  transition: transform 0.1s;
+  box-shadow: var(--glow-neon);
+}
+.cursor-ring {
+  width: 36px; height: 36px;
+  border: 1px solid rgba(0,175,255,0.5);
+  border-radius: 50%;
+  position: fixed;
+  top: 0; left: 0;
+  pointer-events: none;
+  z-index: 9998;
+  transition: all 0.15s ease;
+}
+.cursor-ring.hovering {
+  width: 56px; height: 56px;
+  border-color: var(--neon);
+  background: rgba(0,175,255,0.05);
+}
 
-    nav {
-      position: fixed;
-      top: 0;
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 20px 8%;
-      backdrop-filter: blur(15px);
-      background: rgba(7,17,32,0.5);
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-      z-index: 999;
-    }
+/* SCROLLBAR */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg-deep); }
+::-webkit-scrollbar-thumb { background: var(--neon); border-radius: 2px; }
 
-    nav .logo {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-size: 1.2rem;
-      font-weight: 700;
-      letter-spacing: 1px;
-    }
+/* NOISE OVERLAY */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 1000;
+  opacity: 0.4;
+}
 
-    nav .logo i {
-      color: var(--primary);
-      font-size: 1.4rem;
-      text-shadow: var(--shadow);
-    }
+/* NAVBAR */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 900;
+  padding: 20px 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: all 0.4s ease;
+}
+nav.scrolled {
+  background: rgba(4,13,24,0.9);
+  backdrop-filter: blur(20px);
+  padding: 14px 60px;
+  border-bottom: 1px solid var(--border-glow);
+}
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+}
+.nav-logo-icon {
+  width: 40px; height: 40px;
+  position: relative;
+}
+.nav-logo-icon svg {
+  width: 100%; height: 100%;
+  filter: drop-shadow(0 0 8px rgba(0,175,255,0.8));
+}
+.nav-logo-text {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 1.1rem;
+  color: var(--white);
+  letter-spacing: 0.02em;
+}
+.nav-logo-text span { color: var(--neon); }
+.nav-links {
+  display: flex;
+  gap: 36px;
+  list-style: none;
+}
+.nav-links a {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 400;
+  color: var(--text-soft);
+  text-decoration: none;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  transition: color 0.3s;
+  position: relative;
+}
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -4px; left: 0; right: 0;
+  height: 1px;
+  background: var(--neon);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.3s ease;
+  box-shadow: 0 0 8px var(--neon);
+}
+.nav-links a:hover { color: var(--white); }
+.nav-links a:hover::after { transform: scaleX(1); transform-origin: left; }
+.nav-cta {
+  padding: 10px 24px;
+  background: transparent;
+  border: 1px solid var(--neon);
+  color: var(--neon);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: none;
+  text-decoration: none;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+.nav-cta::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--neon);
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+}
+.nav-cta:hover { color: var(--bg-deep); box-shadow: var(--glow-neon); }
+.nav-cta:hover::before { transform: translateX(0); }
+.nav-cta span { position: relative; z-index: 1; }
+.hamburger { display: none; flex-direction: column; gap: 5px; cursor: none; background: none; border: none; }
+.hamburger span { width: 24px; height: 1px; background: var(--white); transition: all 0.3s; }
 
-    nav ul {
-      display: flex;
-      list-style: none;
-      gap: 25px;
-    }
+/* HERO */
+#hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 120px 60px 80px;
+}
 
-    nav ul li a {
-      text-decoration: none;
-      color: var(--white);
-      transition: 0.3s;
-      font-weight: 500;
-    }
+/* CANVAS BACKGROUND */
+#heroCanvas {
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+}
 
-    nav ul li a:hover {
-      color: var(--primary);
-      text-shadow: var(--shadow);
-    }
+/* GRID OVERLAY */
+.hero-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0,175,255,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,175,255,0.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%);
+}
 
-    .hero {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 140px 8% 100px;
-      position: relative;
-      overflow: hidden;
-    }
+/* SCAN LINE */
+.scanline {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0,175,255,0.015) 2px,
+    rgba(0,175,255,0.015) 4px
+  );
+  pointer-events: none;
+}
 
-    .hero::before {
-      content: "";
-      position: absolute;
-      width: 600px;
-      height: 600px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(0,175,255,0.35), transparent 70%);
-      top: -100px;
-      right: -100px;
-      filter: blur(40px);
-    }
+/* HERO GLOW ORBS */
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+}
+.orb-1 {
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(0,175,255,0.12) 0%, transparent 70%);
+  top: -100px; left: -100px;
+}
+.orb-2 {
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(56,189,248,0.08) 0%, transparent 70%);
+  bottom: -50px; right: 10%;
+}
+.orb-3 {
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, rgba(0,175,255,0.15) 0%, transparent 70%);
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  animation: pulse-orb 4s ease-in-out infinite;
+}
+@keyframes pulse-orb {
+  0%, 100% { opacity: 0.6; transform: translate(-50%, -50%) scale(1); }
+  50% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); }
+}
 
-    .hero-content {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      align-items: center;
-      gap: 60px;
-      width: 100%;
-      max-width: 1400px;
-    }
+.hero-content {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  max-width: 900px;
+}
 
-    .hero-text h1 {
-      font-size: clamp(3rem, 6vw, 5.8rem);
-      line-height: 1.05;
-      margin-bottom: 20px;
-      font-weight: 800;
-    }
+/* LOGO HERO */
+.hero-logo-wrap {
+  margin-bottom: 48px;
+  position: relative;
+  display: inline-block;
+}
+.hero-logo-svg {
+  width: 120px; height: 120px;
+  filter: drop-shadow(0 0 20px rgba(0,175,255,0.9)) drop-shadow(0 0 60px rgba(0,175,255,0.4));
+  animation: logo-float 6s ease-in-out infinite;
+}
+@keyframes logo-float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-12px); }
+}
+.logo-ring {
+  position: absolute;
+  inset: -20px;
+  border-radius: 50%;
+  border: 1px solid rgba(0,175,255,0.2);
+  animation: ring-spin 12s linear infinite;
+}
+.logo-ring::before {
+  content: '';
+  position: absolute;
+  top: -2px; left: 40%;
+  width: 4px; height: 4px;
+  background: var(--neon);
+  border-radius: 50%;
+  box-shadow: 0 0 10px var(--neon);
+}
+@keyframes ring-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-    .hero-text h1 span {
-      color: var(--primary);
-      text-shadow: 0 0 30px rgba(0,175,255,0.7);
-    }
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 16px;
+  border: 1px solid var(--border-glow);
+  background: rgba(0,175,255,0.05);
+  backdrop-filter: blur(10px);
+  margin-bottom: 32px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--neon);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.hero-badge-dot {
+  width: 6px; height: 6px;
+  background: var(--neon);
+  border-radius: 50%;
+  animation: blink 1.5s ease-in-out infinite;
+  box-shadow: 0 0 6px var(--neon);
+}
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
 
-    .hero-text p {
-      color: rgba(255,255,255,0.75);
-      max-width: 600px;
-      margin-bottom: 35px;
-      font-size: 1.1rem;
-    }
+.hero-h1 {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: clamp(2.4rem, 5.5vw, 4.2rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin-bottom: 24px;
+  color: var(--white);
+}
+.hero-h1 em {
+  font-style: normal;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--neon);
+  text-shadow: 0 0 30px rgba(0,175,255,0.4);
+}
+.hero-h1 .neon-word {
+  color: var(--neon);
+  text-shadow: 0 0 20px rgba(0,175,255,0.6);
+}
 
-    .hero-buttons {
-      display: flex;
-      gap: 20px;
-      flex-wrap: wrap;
-    }
+.hero-sub {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: var(--text-soft);
+  max-width: 620px;
+  margin: 0 auto 48px;
+  font-weight: 300;
+}
 
-    .btn {
-      padding: 15px 28px;
-      border-radius: 50px;
-      border: none;
-      cursor: pointer;
-      text-decoration: none;
-      font-weight: 600;
-      transition: 0.35s ease;
-      position: relative;
-      overflow: hidden;
-    }
+.hero-btns {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.btn-primary {
+  padding: 16px 36px;
+  background: var(--neon);
+  color: var(--bg-deep);
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
+  font-size: 0.9rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: none;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+  clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+}
+.btn-primary:hover {
+  box-shadow: 0 0 30px rgba(0,175,255,0.6), 0 0 80px rgba(0,175,255,0.2);
+  transform: translateY(-2px);
+}
+.btn-secondary {
+  padding: 16px 36px;
+  background: transparent;
+  color: var(--white);
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 400;
+  font-size: 0.9rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: none;
+  border: 1px solid rgba(255,255,255,0.2);
+  transition: all 0.3s;
+  backdrop-filter: blur(10px);
+}
+.btn-secondary:hover {
+  border-color: var(--neon);
+  color: var(--neon);
+  box-shadow: inset 0 0 20px rgba(0,175,255,0.05);
+}
 
-    .btn-primary {
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
-      color: var(--white);
-      box-shadow: var(--shadow);
-    }
+/* SCROLL INDICATOR */
+.scroll-hint {
+  position: absolute;
+  bottom: 40px; left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  z-index: 10;
+}
+.scroll-line {
+  width: 1px; height: 60px;
+  background: linear-gradient(to bottom, transparent, var(--neon));
+  animation: scroll-drop 2s ease-in-out infinite;
+}
+@keyframes scroll-drop {
+  0% { transform: scaleY(0); transform-origin: top; opacity: 0; }
+  50% { transform: scaleY(1); transform-origin: top; opacity: 1; }
+  100% { transform: scaleY(1); transform-origin: bottom; opacity: 0; }
+}
+.scroll-hint span {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  color: var(--text-muted);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
 
-    .btn-primary:hover {
-      transform: translateY(-4px) scale(1.02);
-      box-shadow: 0 0 40px rgba(0,175,255,0.55);
-    }
+/* STATS STRIP */
+.stats-strip {
+  position: relative;
+  z-index: 10;
+  background: rgba(10,26,46,0.6);
+  backdrop-filter: blur(20px);
+  border-top: 1px solid var(--border-glow);
+  border-bottom: 1px solid var(--border-glow);
+  padding: 32px 60px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+}
+.stat-item {
+  text-align: center;
+  padding: 0 20px;
+  position: relative;
+}
+.stat-item:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  right: 0; top: 20%; bottom: 20%;
+  width: 1px;
+  background: var(--border-glow);
+}
+.stat-num {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 2.4rem;
+  color: var(--neon);
+  text-shadow: 0 0 20px rgba(0,175,255,0.5);
+  display: block;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+.stat-label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 400;
+}
 
-    .btn-secondary {
-      border: 1px solid rgba(255,255,255,0.15);
-      background: rgba(255,255,255,0.05);
-      color: var(--white);
-      backdrop-filter: blur(15px);
-    }
+/* SECTIONS */
+section { padding: 100px 60px; position: relative; }
 
-    .btn-secondary:hover {
-      border-color: var(--primary);
-      box-shadow: var(--shadow);
-    }
+.section-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--neon);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+.section-tag::before {
+  content: '';
+  width: 24px; height: 1px;
+  background: var(--neon);
+  box-shadow: 0 0 8px var(--neon);
+}
+.section-tag::after {
+  content: '';
+  width: 4px; height: 4px;
+  background: var(--neon);
+  border-radius: 50%;
+  box-shadow: 0 0 6px var(--neon);
+}
 
-    .hero-visual {
-      display: flex;
-      justify-content: center;
-      position: relative;
-    }
+.section-h2 {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: clamp(1.8rem, 3.5vw, 3rem);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin-bottom: 16px;
+}
 
-    .logo-card {
-      width: 100%;
-      max-width: 560px;
-      border-radius: 30px;
-      background: linear-gradient(145deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
-      border: 1px solid rgba(255,255,255,0.08);
-      backdrop-filter: blur(20px);
-      padding: 20px;
-      box-shadow: 0 0 50px rgba(0,175,255,0.25);
-      animation: float 5s ease-in-out infinite;
-    }
+.section-desc {
+  color: var(--text-soft);
+  font-size: 1rem;
+  line-height: 1.7;
+  max-width: 520px;
+  font-weight: 300;
+}
 
-    .logo-card img {
-      width: 100%;
-      border-radius: 20px;
-      display: block;
-    }
+/* SOBRE */
+#sobre { background: var(--bg-dark); }
+.sobre-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.sobre-visual {
+  position: relative;
+}
+.sobre-frame {
+  position: relative;
+  aspect-ratio: 1;
+  max-width: 440px;
+}
+.sobre-frame-inner {
+  width: 100%; height: 100%;
+  background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-mid) 100%);
+  border: 1px solid var(--border-glow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+.sobre-frame-inner::before {
+  content: '';
+  position: absolute;
+  top: -50%; left: -50%;
+  width: 200%; height: 200%;
+  background: conic-gradient(from 0deg, transparent 0deg, rgba(0,175,255,0.1) 60deg, transparent 120deg);
+  animation: rotate-bg 8s linear infinite;
+}
+@keyframes rotate-bg { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+.sobre-logo-big {
+  width: 160px; height: 160px;
+  filter: drop-shadow(0 0 30px rgba(0,175,255,0.8));
+  position: relative;
+  z-index: 2;
+  animation: logo-float 6s ease-in-out infinite;
+}
+.corner {
+  position: absolute;
+  width: 16px; height: 16px;
+  border-color: var(--neon);
+  border-style: solid;
+}
+.corner-tl { top: -1px; left: -1px; border-width: 2px 0 0 2px; }
+.corner-tr { top: -1px; right: -1px; border-width: 2px 2px 0 0; }
+.corner-bl { bottom: -1px; left: -1px; border-width: 0 0 2px 2px; }
+.corner-br { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; }
 
-    @keyframes float {
-      0%,100% { transform: translateY(0px); }
-      50% { transform: translateY(-15px); }
-    }
+.sobre-text { display: flex; flex-direction: column; gap: 0; }
+.sobre-text .section-h2 { margin-bottom: 20px; }
+.sobre-text .section-desc { margin-bottom: 40px; }
 
-    section {
-      padding: 110px 8%;
-      position: relative;
-    }
+.values-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.value-card {
+  padding: 20px;
+  background: rgba(0,175,255,0.04);
+  border: 1px solid var(--border-glow);
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+.value-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 3px; height: 0;
+  background: var(--neon);
+  box-shadow: 0 0 10px var(--neon);
+  transition: height 0.4s ease;
+}
+.value-card:hover::before { height: 100%; }
+.value-card:hover {
+  border-color: rgba(0,175,255,0.4);
+  background: rgba(0,175,255,0.08);
+  transform: translateY(-2px);
+}
+.value-title {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--neon);
+  margin-bottom: 6px;
+  letter-spacing: 0.03em;
+}
+.value-desc { font-size: 0.8rem; color: var(--text-muted); line-height: 1.5; font-weight: 300; }
 
-    .section-title {
-      text-align: center;
-      margin-bottom: 70px;
-    }
+/* SERVIÇOS */
+#servicos { background: var(--bg-deep); }
+.servicos-header {
+  text-align: center;
+  margin-bottom: 60px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.servicos-header .section-tag { justify-content: center; }
+.servicos-header .section-desc { margin: 0 auto; text-align: center; }
 
-    .section-title span {
-      color: var(--primary);
-      text-transform: uppercase;
-      letter-spacing: 3px;
-      font-size: 0.9rem;
-      font-weight: 700;
-    }
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.service-card {
+  background: var(--bg-card);
+  padding: 48px 40px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s ease;
+  border: 1px solid transparent;
+  cursor: none;
+}
+.service-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(0,175,255,0.06) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.service-card:hover::before { opacity: 1; }
+.service-card:hover {
+  border-color: var(--border-glow);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 60px rgba(0,175,255,0.1);
+  z-index: 2;
+}
+.service-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  color: rgba(0,175,255,0.3);
+  letter-spacing: 0.1em;
+  margin-bottom: 24px;
+}
+.service-icon-wrap {
+  width: 56px; height: 56px;
+  border: 1px solid var(--border-glow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 28px;
+  position: relative;
+  transition: all 0.4s;
+  clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+}
+.service-card:hover .service-icon-wrap {
+  border-color: var(--neon);
+  background: rgba(0,175,255,0.1);
+  box-shadow: 0 0 20px rgba(0,175,255,0.3);
+}
+.service-icon-wrap i {
+  font-size: 1.3rem;
+  color: var(--neon);
+  transition: transform 0.3s;
+}
+.service-card:hover .service-icon-wrap i { transform: scale(1.1); }
+.service-title {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 1.2rem;
+  margin-bottom: 14px;
+  color: var(--white);
+}
+.service-desc {
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  line-height: 1.7;
+  font-weight: 300;
+  margin-bottom: 24px;
+}
+.service-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.tag {
+  padding: 4px 12px;
+  background: rgba(0,175,255,0.06);
+  border: 1px solid rgba(0,175,255,0.15);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--text-soft);
+  letter-spacing: 0.05em;
+}
+.service-arrow {
+  position: absolute;
+  bottom: 32px; right: 32px;
+  width: 36px; height: 36px;
+  border: 1px solid rgba(0,175,255,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+  clip-path: polygon(4px 0%, 100% 0%, calc(100% - 4px) 100%, 0% 100%);
+}
+.service-card:hover .service-arrow {
+  background: var(--neon);
+  border-color: var(--neon);
+  box-shadow: 0 0 20px rgba(0,175,255,0.4);
+}
+.service-card:hover .service-arrow i { color: var(--bg-deep); }
+.service-arrow i { font-size: 0.7rem; color: var(--neon); transition: color 0.3s; }
 
-    .section-title h2 {
-      font-size: clamp(2.4rem, 5vw, 4rem);
-      margin-top: 15px;
-    }
+/* PROJECTOS */
+#projectos { background: var(--bg-dark); }
+.proj-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 60px;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.proj-header .section-desc { margin-bottom: 0; }
+.proj-link {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--neon);
+  text-decoration: none;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: gap 0.3s;
+}
+.proj-link:hover { gap: 12px; }
 
-    .section-title p {
-      max-width: 700px;
-      margin: 20px auto 0;
-      color: rgba(255,255,255,0.7);
-    }
+.projects-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 2px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.project-card {
+  background: var(--bg-card);
+  position: relative;
+  overflow: hidden;
+  cursor: none;
+  transition: all 0.4s;
+}
+.project-card:hover { transform: scale(1.01); z-index: 2; }
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 30px;
-    }
+.project-card:nth-child(1) {
+  grid-row: 1 / 3;
+  min-height: 520px;
+}
+.project-card:nth-child(2), .project-card:nth-child(3) {
+  min-height: 258px;
+}
 
-    .card {
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 24px;
-      padding: 35px;
-      backdrop-filter: blur(20px);
-      transition: 0.4s ease;
-      position: relative;
-      overflow: hidden;
-    }
+.project-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.6s ease;
+}
+.project-card:hover .project-bg { transform: scale(1.05); }
 
-    .card::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, rgba(0,175,255,0.08), transparent 60%);
-      opacity: 0;
-      transition: 0.4s;
-    }
+.project-bg-1 {
+  background: linear-gradient(135deg, #0a1628 0%, #0d2040 50%, #071428 100%);
+}
+.project-bg-1::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 30% 40%, rgba(0,175,255,0.15) 0%, transparent 60%),
+              url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2300AFFF' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.project-bg-2 {
+  background: linear-gradient(135deg, #071120 0%, #0a1a2e 100%);
+}
+.project-bg-2::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 60% 30%, rgba(56,189,248,0.12) 0%, transparent 60%);
+}
+.project-bg-3 {
+  background: linear-gradient(135deg, #040d18 0%, #0d2040 100%);
+}
+.project-bg-3::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 30% 60%, rgba(0,175,255,0.1) 0%, transparent 60%);
+}
 
-    .card:hover::before {
-      opacity: 1;
-    }
+.project-content {
+  position: absolute;
+  inset: 0;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  background: linear-gradient(to top, rgba(4,13,24,0.95) 0%, rgba(4,13,24,0.3) 60%, transparent 100%);
+}
+.project-cat {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--neon);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.project-cat::before {
+  content: '';
+  width: 16px; height: 1px;
+  background: var(--neon);
+}
+.project-title {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 1.4rem;
+  margin-bottom: 12px;
+  line-height: 1.2;
+}
+.project-card:nth-child(2) .project-title,
+.project-card:nth-child(3) .project-title { font-size: 1.1rem; }
+.project-desc {
+  color: var(--text-soft);
+  font-size: 0.82rem;
+  line-height: 1.6;
+  font-weight: 300;
+  margin-bottom: 20px;
+}
+.project-card:nth-child(2) .project-desc,
+.project-card:nth-child(3) .project-desc { display: none; }
+.project-card:nth-child(1):hover .project-content { padding-bottom: 44px; }
 
-    .card:hover {
-      transform: translateY(-10px);
-      border-color: rgba(0,175,255,0.5);
-      box-shadow: 0 0 35px rgba(0,175,255,0.2);
-    }
+.project-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.project-year {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--text-muted);
+}
+.project-icon-link {
+  width: 32px; height: 32px;
+  border: 1px solid rgba(0,175,255,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+  color: var(--neon);
+  font-size: 0.7rem;
+}
+.project-card:hover .project-icon-link {
+  background: var(--neon);
+  color: var(--bg-deep);
+  box-shadow: 0 0 15px rgba(0,175,255,0.4);
+}
 
-    .card i {
-      width: 70px;
-      height: 70px;
-      border-radius: 18px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: rgba(0,175,255,0.1);
-      color: var(--primary);
-      font-size: 1.7rem;
-      margin-bottom: 25px;
-      box-shadow: var(--shadow);
-    }
+/* DECORATIVE ELEMENTS IN PROJECT CARDS */
+.proj-deco {
+  position: absolute;
+  top: 24px; right: 24px;
+  width: 80px; height: 80px;
+  opacity: 0.15;
+  transition: opacity 0.3s;
+}
+.project-card:hover .proj-deco { opacity: 0.3; }
+.proj-deco svg { width: 100%; height: 100%; }
 
-    .card h3 {
-      margin-bottom: 15px;
-      font-size: 1.4rem;
-    }
+/* FAQ */
+#faq { background: var(--bg-deep); }
+.faq-layout {
+  display: grid;
+  grid-template-columns: 1fr 1.6fr;
+  gap: 80px;
+  max-width: 1200px;
+  margin: 0 auto;
+  align-items: start;
+}
+.faq-side { position: sticky; top: 100px; }
+.faq-side .section-desc { margin-bottom: 32px; }
+.faq-contact-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--neon);
+  text-decoration: none;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: gap 0.3s;
+}
+.faq-contact-link:hover { gap: 12px; }
 
-    .card p {
-      color: rgba(255,255,255,0.7);
-    }
+.faq-list { display: flex; flex-direction: column; }
+.faq-item {
+  border-bottom: 1px solid rgba(0,175,255,0.1);
+  overflow: hidden;
+}
+.faq-item:first-child { border-top: 1px solid rgba(0,175,255,0.1); }
+.faq-q {
+  width: 100%;
+  padding: 24px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: none;
+  border: none;
+  color: var(--white);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 500;
+  text-align: left;
+  cursor: none;
+  transition: color 0.3s;
+  gap: 16px;
+}
+.faq-q:hover { color: var(--neon); }
+.faq-item.open .faq-q { color: var(--neon); }
+.faq-icon {
+  width: 24px; height: 24px;
+  border: 1px solid rgba(0,175,255,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 0.7rem;
+  color: var(--neon);
+  transition: all 0.3s;
+  clip-path: polygon(4px 0%, 100% 0%, calc(100% - 4px) 100%, 0% 100%);
+}
+.faq-item.open .faq-icon {
+  background: var(--neon);
+  color: var(--bg-deep);
+  transform: rotate(45deg);
+}
+.faq-a {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease, padding 0.3s;
+}
+.faq-item.open .faq-a { max-height: 300px; }
+.faq-a p {
+  padding: 0 40px 24px 0;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  line-height: 1.7;
+  font-weight: 300;
+}
 
-    .about-content {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 30px;
-    }
+/* CONTATO */
+#contato { background: var(--bg-dark); }
+.contato-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 80px;
+  max-width: 1200px;
+  margin: 0 auto;
+  align-items: start;
+}
+.contato-info { display: flex; flex-direction: column; gap: 32px; }
+.contato-info .section-desc { margin-bottom: 8px; }
 
-    .project-card img {
-      width: 100%;
-      border-radius: 18px;
-      margin-bottom: 20px;
-      border: 1px solid rgba(255,255,255,0.08);
-    }
+.contact-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+.contact-icon {
+  width: 44px; height: 44px;
+  border: 1px solid var(--border-glow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
+}
+.contact-icon i { color: var(--neon); font-size: 0.9rem; }
+.contact-text p:first-child {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.contact-text p:last-child { font-size: 0.9rem; color: var(--text-soft); font-weight: 300; }
 
-    .faq {
-      max-width: 900px;
-      margin: auto;
-    }
+.social-row {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}
+.social-btn {
+  width: 40px; height: 40px;
+  border: 1px solid var(--border-glow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  text-decoration: none;
+  transition: all 0.3s;
+  cursor: none;
+  clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
+}
+.social-btn:hover {
+  border-color: var(--neon);
+  color: var(--neon);
+  background: rgba(0,175,255,0.08);
+  box-shadow: 0 0 15px rgba(0,175,255,0.2);
+}
 
-    .faq-item {
-      margin-bottom: 20px;
-      background: rgba(255,255,255,0.04);
-      border-radius: 18px;
-      overflow: hidden;
-      border: 1px solid rgba(255,255,255,0.08);
-    }
+/* FORM */
+.contact-form { display: flex; flex-direction: column; gap: 16px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.form-group { display: flex; flex-direction: column; gap: 8px; }
+.form-group label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.form-group input,
+.form-group textarea,
+.form-group select {
+  background: rgba(0,175,255,0.03);
+  border: 1px solid var(--border-glow);
+  color: var(--white);
+  padding: 14px 16px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 300;
+  outline: none;
+  transition: all 0.3s;
+  width: 100%;
+  appearance: none;
+}
+.form-group input::placeholder,
+.form-group textarea::placeholder { color: rgba(123,163,196,0.4); }
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  border-color: var(--neon);
+  background: rgba(0,175,255,0.05);
+  box-shadow: 0 0 0 1px rgba(0,175,255,0.1);
+}
+.form-group textarea { resize: vertical; min-height: 120px; }
+.form-group select { color: var(--text-soft); cursor: none; }
+.form-group select option { background: var(--bg-card); }
 
-    .faq-question {
-      padding: 22px;
-      cursor: pointer;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-weight: 600;
-    }
+.btn-submit {
+  padding: 16px 36px;
+  background: var(--neon);
+  color: var(--bg-deep);
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: none;
+  cursor: none;
+  transition: all 0.3s;
+  width: 100%;
+  clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+  position: relative;
+  overflow: hidden;
+}
+.btn-submit::before {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 0; height: 0;
+  background: rgba(255,255,255,0.2);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.4s, height 0.4s;
+}
+.btn-submit:hover::before { width: 300px; height: 300px; }
+.btn-submit:hover { box-shadow: 0 0 30px rgba(0,175,255,0.5); }
 
-    .faq-answer {
-      padding: 0 22px 22px;
-      color: rgba(255,255,255,0.7);
-      display: none;
-    }
+/* WHATSAPP FLOATING */
+.wa-float {
+  position: fixed;
+  bottom: 32px; right: 32px;
+  width: 56px; height: 56px;
+  background: #25D366;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.4rem;
+  text-decoration: none;
+  z-index: 800;
+  box-shadow: 0 4px 20px rgba(37,211,102,0.4);
+  transition: all 0.3s;
+  cursor: none;
+  animation: wa-pulse 3s ease-in-out infinite;
+}
+@keyframes wa-pulse {
+  0%, 100% { box-shadow: 0 4px 20px rgba(37,211,102,0.4); }
+  50% { box-shadow: 0 4px 40px rgba(37,211,102,0.6), 0 0 0 8px rgba(37,211,102,0.1); }
+}
+.wa-float:hover { transform: scale(1.1); background: #1ebe59; }
 
-    .contact-box {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 40px;
-    }
+/* FOOTER */
+footer {
+  background: var(--bg-deep);
+  border-top: 1px solid var(--border-glow);
+  padding: 60px 60px 32px;
+  position: relative;
+  overflow: hidden;
+}
+footer::before {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--neon), transparent);
+  opacity: 0.3;
+}
+.footer-top {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 48px;
+  margin-bottom: 48px;
+}
+.footer-brand {}
+.footer-brand .nav-logo { margin-bottom: 16px; display: inline-flex; }
+.footer-brand p {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  line-height: 1.7;
+  font-weight: 300;
+  max-width: 280px;
+  margin-bottom: 24px;
+}
+.footer-social { display: flex; gap: 10px; }
 
-    form {
-      display: flex;
-      flex-direction: column;
-      gap: 18px;
-    }
+.footer-col h4 {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--white);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+.footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.footer-col ul a {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  text-decoration: none;
+  transition: color 0.3s;
+  font-weight: 300;
+  cursor: none;
+}
+.footer-col ul a:hover { color: var(--neon); }
 
-    input, textarea {
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.08);
-      padding: 16px;
-      border-radius: 14px;
-      color: white;
-      outline: none;
-    }
+.footer-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 24px;
+  border-top: 1px solid rgba(0,175,255,0.06);
+}
+.footer-copy {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  color: rgba(123,163,196,0.4);
+  letter-spacing: 0.08em;
+}
+.footer-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  color: #22c55e;
+  letter-spacing: 0.06em;
+}
+.status-dot {
+  width: 6px; height: 6px;
+  background: #22c55e;
+  border-radius: 50%;
+  animation: blink 2s infinite;
+  box-shadow: 0 0 6px #22c55e;
+}
 
-    textarea {
-      min-height: 150px;
-      resize: none;
-    }
+/* ANIMATIONS */
+.fade-up {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.fade-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.fade-up-delay-1 { transition-delay: 0.1s; }
+.fade-up-delay-2 { transition-delay: 0.2s; }
+.fade-up-delay-3 { transition-delay: 0.3s; }
+.fade-up-delay-4 { transition-delay: 0.4s; }
 
-    footer {
-      padding: 50px 8%;
-      border-top: 1px solid rgba(255,255,255,0.08);
-      background: rgba(255,255,255,0.02);
-      text-align: center;
-    }
+/* MOBILE NAV */
+.mobile-menu {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(4,13,24,0.98);
+  backdrop-filter: blur(20px);
+  z-index: 850;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+}
+.mobile-menu.open { display: flex; }
+.mobile-menu a {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--white);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+.mobile-menu a:hover { color: var(--neon); }
+.mobile-close {
+  position: absolute;
+  top: 24px; right: 24px;
+  background: none;
+  border: none;
+  color: var(--white);
+  font-size: 1.5rem;
+  cursor: none;
+}
 
-    footer h3 {
-      margin-bottom: 15px;
-      font-size: 1.6rem;
-    }
-
-    footer p {
-      color: rgba(255,255,255,0.6);
-      margin-bottom: 20px;
-    }
-
-    .socials {
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-      margin-top: 20px;
-    }
-
-    .socials a {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-decoration: none;
-      color: white;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.08);
-      transition: 0.3s;
-    }
-
-    .socials a:hover {
-      background: var(--primary);
-      transform: translateY(-5px);
-      box-shadow: var(--shadow);
-    }
-
-    .whatsapp {
-      position: fixed;
-      right: 20px;
-      bottom: 20px;
-      width: 65px;
-      height: 65px;
-      border-radius: 50%;
-      background: #25d366;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-size: 1.8rem;
-      text-decoration: none;
-      z-index: 999;
-      box-shadow: 0 0 30px rgba(37,211,102,0.5);
-      animation: pulse 2s infinite;
-    }
-
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.08); }
-      100% { transform: scale(1); }
-    }
-
-    .fade-up {
-      opacity: 0;
-      transform: translateY(40px);
-      transition: all 0.9s ease;
-    }
-
-    .fade-up.show {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    @media(max-width: 900px) {
-      nav ul {
-        display: none;
-      }
-
-      .hero {
-        text-align: center;
-      }
-
-      .hero-buttons {
-        justify-content: center;
-      }
-    }
-  </style>
+/* RESPONSIVE */
+@media (max-width: 1024px) {
+  nav { padding: 20px 32px; }
+  nav.scrolled { padding: 14px 32px; }
+  .nav-links, .nav-cta { display: none; }
+  .hamburger { display: flex; }
+  section { padding: 80px 32px; }
+  #hero { padding: 120px 32px 80px; }
+  .stats-strip { padding: 24px 32px; grid-template-columns: repeat(2, 1fr); }
+  .stat-item:nth-child(2)::after { display: none; }
+  .sobre-grid { grid-template-columns: 1fr; gap: 48px; }
+  .sobre-frame { max-width: 320px; margin: 0 auto; }
+  .services-grid { grid-template-columns: 1fr; }
+  .projects-grid { grid-template-columns: 1fr; }
+  .project-card:nth-child(1) { grid-row: auto; min-height: 360px; }
+  .project-card:nth-child(2) .project-desc,
+  .project-card:nth-child(3) .project-desc { display: block; }
+  .faq-layout { grid-template-columns: 1fr; gap: 48px; }
+  .faq-side { position: static; }
+  .contato-grid { grid-template-columns: 1fr; gap: 48px; }
+  .footer-top { grid-template-columns: 1fr 1fr; }
+  .proj-header { flex-direction: column; align-items: flex-start; gap: 16px; }
+}
+@media (max-width: 640px) {
+  .hero-h1 { font-size: 2rem; }
+  .stat-num { font-size: 1.8rem; }
+  .values-grid { grid-template-columns: 1fr; }
+  .form-row { grid-template-columns: 1fr; }
+  .footer-top { grid-template-columns: 1fr; }
+  .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
+}
+</style>
 </head>
 <body>
 
-  <div class="grid-bg"></div>
+<div class="cursor" id="cursor"></div> 
+<div class="cursor-ring" id="cursorRing"></div>
 
-  <nav>
-    <div class="logo">
-       <img src="logo.jpeg" alt="" style="max-width: 70px; max-height: 70; border-radius: 50%;"> 
-      Clever Innovaction
+<!-- WHATSAPP FLOAT -->
+<a href="https://wa.me/244929821547?text=Olá%20quero%20mais%20informações%20sobre%20a%20clever" class="wa-float" target="_blank" title="WhatsApp">
+  <i class="fab fa-whatsapp"></i>
+</a>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" id="mobileClose"><i class="fas fa-times"></i></button>
+  <a href="#sobre" onclick="closeMobile()">Sobre</a>
+  <a href="#servicos" onclick="closeMobile()">Serviços</a>
+  <a href="#projectos" onclick="closeMobile()">Projectos</a>
+  <a href="#faq" onclick="closeMobile()">FAQ</a>
+  <a href="#contato" onclick="closeMobile()">Contacto</a>
+</div>
+
+<!-- NAVBAR -->
+<nav id="navbar">
+  <a href="#" class="nav-logo">
+    <div class="nav-logo-icon">
+      <svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" fill="none">
+        <defs>
+          <linearGradient id="logoGradNav" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#38BDF8"/>
+            <stop offset="100%" stop-color="#00AFFF"/>
+          </linearGradient>
+        </defs>
+        <!-- C shape - Clever -->
+        <path d="M38 12 C26 12, 14 20, 14 30 C14 40, 26 48, 38 48" stroke="url(#logoGradNav)" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+        <!-- Inner element -->
+        <circle cx="38" cy="30" r="4" fill="#00AFFF"/>
+        <path d="M38 20 L38 40" stroke="#00AFFF" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
+        <!-- Tech dots -->
+        <circle cx="14" cy="30" r="2" fill="#38BDF8"/>
+        <circle cx="46" cy="22" r="1.5" fill="#38BDF8" opacity="0.6"/>
+        <circle cx="46" cy="38" r="1.5" fill="#38BDF8" opacity="0.6"/>
+      </svg>
+    </div>
+    <span class="nav-logo-text">Clever <span>Innovaction</span></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#sobre">Sobre</a></li>
+    <li><a href="#servicos">Serviços</a></li>
+    <li><a href="#projectos">Projectos</a></li>
+    <li><a href="#faq">FAQ</a></li>
+    <li><a href="#contato">Contacto</a></li>
+  </ul>
+  <a href="#contato" class="nav-cta"><span>Iniciar Projecto</span></a>
+  <button class="hamburger" id="hamburger">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <canvas id="heroCanvas"></canvas>
+  <div class="hero-grid"></div>
+  <div class="scanline"></div>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+
+  <div class="hero-content">
+    <div class="hero-logo-wrap">
+      <div class="logo-ring"></div>
+      <svg class="hero-logo-svg" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" fill="none">
+        <defs>
+          <linearGradient id="logoGradHero" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#38BDF8"/>
+            <stop offset="50%" stop-color="#00AFFF"/>
+            <stop offset="100%" stop-color="#0ea5e9"/>
+          </linearGradient>
+          <filter id="glow">
+            <feGaussianBlur stdDeviation="2" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
+        <!-- Large C shape -->
+        <path d="M82 24 C58 18, 28 32, 28 60 C28 88, 58 102, 82 96" 
+              stroke="url(#logoGradHero)" stroke-width="5" stroke-linecap="round" fill="none" filter="url(#glow)"/>
+        <!-- Circuit lines -->
+        <line x1="82" y1="60" x2="96" y2="60" stroke="#00AFFF" stroke-width="2" opacity="0.5"/>
+        <line x1="96" y1="60" x2="96" y2="44" stroke="#00AFFF" stroke-width="2" opacity="0.5"/>
+        <line x1="96" y1="44" x2="108" y2="44" stroke="#00AFFF" stroke-width="2" opacity="0.3"/>
+        <line x1="96" y1="76" x2="96" y2="96" stroke="#00AFFF" stroke-width="2" opacity="0.3"/>
+        <!-- Core circle -->
+        <circle cx="82" cy="60" r="8" fill="#00AFFF" opacity="0.9"/>
+        <circle cx="82" cy="60" r="14" stroke="#00AFFF" stroke-width="1" opacity="0.3"/>
+        <circle cx="82" cy="60" r="20" stroke="#00AFFF" stroke-width="0.5" opacity="0.15"/>
+        <!-- Nodes -->
+        <circle cx="28" cy="60" r="4" fill="#38BDF8"/>
+        <circle cx="96" cy="44" r="3" fill="#38BDF8" opacity="0.7"/>
+        <circle cx="108" cy="44" r="2" fill="#38BDF8" opacity="0.4"/>
+        <circle cx="96" cy="76" r="3" fill="#38BDF8" opacity="0.5"/>
+        <!-- Cross hair -->
+        <line x1="78" y1="60" x2="86" y2="60" stroke="white" stroke-width="1.5" opacity="0.8"/>
+        <line x1="82" y1="56" x2="82" y2="64" stroke="white" stroke-width="1.5" opacity="0.8"/>
+      </svg>
     </div>
 
-    <ul>
-      <li><a href="#sobre">Sobre</a></li>
-      <li><a href="#servicos">Serviços</a></li>
-      <li><a href="#projectos">Projectos</a></li>
-      <li><a href="#contacto">Contacto</a></li>
-    </ul>
-  </nav>
+    <div class="hero-badge">
+      <span class="hero-badge-dot"></span>
+      Angola · Fundada 2026 · 35 Especialistas
+    </div>
 
-  <section class="hero">
-    <div class="hero-content">
-      <div class="hero-text fade-up">
-        <h1>Tecnologia que conecta <span>ideias</span>, pessoas e futuros.</h1>
-        <p>
-          Desenvolvemos soluções digitais inovadoras que transformam negócios, impulsionam serviços e criam impacto positivo através da tecnologia.
+    <h1 class="hero-h1">
+      Tecnologia que conecta<br>
+      <em>ideias,</em> pessoas e <span class="neon-word">futuros.</span>
+    </h1>
+
+    <p class="hero-sub">
+      Desenvolvemos soluções digitais inovadoras que transformam negócios, 
+      impulsionam serviços e criam impacto positivo em toda Angola e além.
+    </p>
+
+    <div class="hero-btns">
+      <a href="#servicos" class="btn-primary">Explorar Serviços</a>
+      <a href="#contato" class="btn-secondary">Falar Connosco</a>
+    </div>
+  </div>
+
+  <div class="scroll-hint">
+    <div class="scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- STATS STRIP -->
+<div class="stats-strip">
+  <div class="stat-item fade-up">
+    <span class="stat-num" data-count="35">0</span>
+    <span class="stat-label">Colaboradores</span>
+  </div>
+  <div class="stat-item fade-up fade-up-delay-1">
+    <span class="stat-num" data-count="5">0</span>
+    <span class="stat-label">Projectos Entregues</span>
+  </div>
+  <div class="stat-item fade-up fade-up-delay-2">
+    <span class="stat-num" data-count="98">0</span>
+    <span class="stat-label">% Satisfação</span>
+  </div>
+  <div class="stat-item fade-up fade-up-delay-3">
+    <span class="stat-num" data-count="5">0</span>
+    <span class="stat-label">Áreas de Expertise</span>
+  </div>
+</div>
+
+<!-- SOBRE -->
+<section id="sobre">
+  <div class="sobre-grid">
+    <div class="sobre-visual fade-up">
+      <div class="sobre-frame">
+        <div class="sobre-frame-inner">
+          <div class="corner corner-tl"></div>
+          <div class="corner corner-tr"></div>
+          <div class="corner corner-bl"></div>
+          <div class="corner corner-br"></div>
+          <svg class="sobre-logo-big" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" fill="none">
+            <defs>
+              <linearGradient id="logoBig" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#38BDF8"/>
+                
+                <stop offset="100%" stop-color="#00AFFF"/>
+              </linearGradient>
+            </defs>
+            <path d="M82 24 C58 18, 28 32, 28 60 C28 88, 58 102, 82 96" 
+                  stroke="url(#logoBig)" stroke-width="5" stroke-linecap="round" fill="none"/>
+            <line x1="82" y1="60" x2="96" y2="60" stroke="#00AFFF" stroke-width="2" opacity="0.5"/>
+            <line x1="96" y1="60" x2="96" y2="44" stroke="#00AFFF" stroke-width="2" opacity="0.5"/>
+            <line x1="96" y1="44" x2="108" y2="44" stroke="#00AFFF" stroke-width="2" opacity="0.3"/>
+            <line x1="96" y1="76" x2="96" y2="96" stroke="#00AFFF" stroke-width="2" opacity="0.3"/>
+            <circle cx="82" cy="60" r="8" fill="#00AFFF" opacity="0.9"/>
+            <circle cx="82" cy="60" r="14" stroke="#00AFFF" stroke-width="1" opacity="0.3"/>
+            <circle cx="82" cy="60" r="20" stroke="#00AFFF" stroke-width="0.5" opacity="0.15"/>
+            <circle cx="28" cy="60" r="4" fill="#38BDF8"/>
+            <circle cx="96" cy="44" r="3" fill="#38BDF8" opacity="0.7"/>
+            <circle cx="108" cy="44" r="2" fill="#38BDF8" opacity="0.4"/>
+            <circle cx="96" cy="76" r="3" fill="#38BDF8" opacity="0.5"/>
+            <line x1="78" y1="60" x2="86" y2="60" stroke="white" stroke-width="1.5" opacity="0.8"/>
+            <line x1="82" y1="56" x2="82" y2="64" stroke="white" stroke-width="1.5" opacity="0.8"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+    <div class="sobre-text">
+      <div class="fade-up">
+        <div class="section-tag">Sobre Nós</div>
+        <h2 class="section-h2">Transformamos visão<br>em tecnologia real.</h2>
+        <p class="section-desc">
+          A Clever Innovaction nasceu em Angola com uma missão clara: democratizar o acesso 
+          a tecnologia de ponta. Somos especialistas em criar soluções digitais que resolvem 
+          problemas reais e geram valor mensurável.
         </p>
-
-        <div class="hero-buttons">
-          <a href="#servicos" class="btn btn-primary">Explorar Serviços</a>
-          <a href="#contacto" class="btn btn-secondary">Falar Connosco</a>
-        </div>
       </div>
- 
-      <div class="hero-visual fade-up">
-        <div class="logo-card">
-          <img src="logo.jpeg" alt="Clever Innovaction Logo">
+      <div class="values-grid fade-up fade-up-delay-1">
+        <div class="value-card">
+          <div class="value-title">Missão</div>
+          <div class="value-desc">Criar soluções tecnológicas que impactam positivamente organizações e comunidades em Angola.</div>
+        </div>
+        <div class="value-card">
+          <div class="value-title">Visão</div>
+          <div class="value-desc">Ser a referência em inovação digital no mercado angolano e africano até 2030.</div>
+        </div>
+        <div class="value-card">
+          <div class="value-title">Inovação</div>
+          <div class="value-desc">Adoptamos as mais recentes tecnologias e metodologias para entregar soluções de vanguarda.</div>
+        </div>
+        <div class="value-card">
+          <div class="value-title">Qualidade</div>
+          <div class="value-desc">Cada linha de código, cada interface, cada entrega reflecte o nosso compromisso com a excelência.</div>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <section id="sobre">
-    <div class="section-title fade-up">  
-      <span>Sobre Nós</span>
-      <h2>Inovação, criatividade e tecnologia avançada</h2>
-      <p>
-        A Clever Innovaction é uma empresa tecnológica angolana focada em criar soluções modernas, inteligentes e impactantes para empresas e instituições.
+<!-- SERVIÇOS -->
+<section id="servicos">
+  <div class="servicos-header fade-up">
+    <div class="section-tag">Serviços</div>
+    <h2 class="section-h2">Soluções digitais<br>para cada desafio.</h2>
+    <p class="section-desc">
+      Da concepção ao lançamento, oferecemos um ecossistema completo de serviços tecnológicos.
+    </p>
+  </div>
+
+  <div class="services-grid">
+    <div class="service-card fade-up">
+      <div class="service-num">01 —</div>
+      <div class="service-icon-wrap">
+        <i class="fas fa-globe"></i>
+      </div>
+      <div class="service-title">Desenvolvimento Web</div>
+      <div class="service-desc">
+        Criamos websites e plataformas web de alto desempenho, com design premium, 
+        arquitectura escalável e experiências de utilizador extraordinárias que convertem visitantes em clientes.
+      </div>
+      <div class="service-tags">
+        <span class="tag">React</span>
+        <span class="tag">Next.js</span>
+        <span class="tag">Node.js</span>
+        <span class="tag">TypeScript</span>
+      </div>
+      <div class="service-arrow"><i class="fas fa-arrow-right"></i></div>
+    </div>
+
+    <div class="service-card fade-up fade-up-delay-1">
+      <div class="service-num">02 —</div>
+      <div class="service-icon-wrap">
+        <i class="fas fa-mobile-alt"></i>
+      </div>
+      <div class="service-title">Aplicativos Móveis</div>
+      <div class="service-desc">
+        Desenvolvemos aplicações iOS e Android nativas e multiplataforma que encantam os utilizadores 
+        com interfaces intuitivas e performance superior em todos os dispositivos.
+      </div>
+      <div class="service-tags">
+        <span class="tag">Flutter</span>
+        <span class="tag">React Native</span>
+        <span class="tag">iOS</span>
+        <span class="tag">Android</span>
+      </div>
+      <div class="service-arrow"><i class="fas fa-arrow-right"></i></div>
+    </div>
+
+    <div class="service-card fade-up fade-up-delay-2">
+      <div class="service-num">03 —</div>
+      <div class="service-icon-wrap">
+        <i class="fas fa-server"></i>
+      </div>
+      <div class="service-title">Sistemas Empresariais</div>
+      <div class="service-desc">
+        Desenvolvemos ERPs, CRMs e sistemas de gestão personalizados que automatizam processos, 
+        aumentam a eficiência operacional e fornecem dados críticos em tempo real para decisões estratégicas.
+      </div>
+      <div class="service-tags">
+        <span class="tag">ERP</span>
+        <span class="tag">CRM</span>
+        <span class="tag">API REST</span>
+        <span class="tag">Cloud</span>
+      </div>
+      <div class="service-arrow"><i class="fas fa-arrow-right"></i></div>
+    </div>
+
+    <div class="service-card fade-up fade-up-delay-3">
+      <div class="service-num">04 —</div>
+      <div class="service-icon-wrap">
+        <i class="fas fa-palette"></i>
+      </div>
+      <div class="service-title">UI/UX Design</div>
+      <div class="service-desc">
+        Design de interfaces que equilibram estética e funcionalidade. Criamos experiências 
+        digitais memoráveis, baseadas em investigação de utilizadores, que maximizam engagement e conversão.
+      </div>
+      <div class="service-tags">
+        <span class="tag">Figma</span>
+        <span class="tag">Prototyping</span>
+        <span class="tag">Research</span>
+        <span class="tag">Design System</span>
+      </div>
+      <div class="service-arrow"><i class="fas fa-arrow-right"></i></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTOS -->
+<section id="projectos">
+  <div class="proj-header fade-up">
+    <div>
+      <div class="section-tag">Projectos</div>
+      <h2 class="section-h2">Trabalho que<br>fala por si.</h2>
+      <p class="section-desc">
+        Cada projecto é uma história de transformação digital.
       </p>
     </div>
+    <a href="#contato" class="proj-link">
+      Ver Todos <i class="fas fa-arrow-right"></i>
+    </a>
+  </div>
 
-    <div class="about-content">
-      <div class="card fade-up">
-        <i class="fa-solid fa-bullseye"></i>
-        <h3>Missão</h3>
-        <p>Criar soluções digitais inovadoras que impulsionam negócios e transformam experiências.</p>
+  <div class="projects-grid">
+    <!-- PROJECT 1 -->
+    <div class="project-card fade-up">
+      <div class="project-bg project-bg-1"></div>
+      <div class="proj-deco">
+        <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="40" cy="40" r="36" stroke="#00AFFF" stroke-width="1"/>
+          <circle cx="40" cy="40" r="24" stroke="#00AFFF" stroke-width="0.5"/>
+          <circle cx="40" cy="40" r="12" stroke="#00AFFF" stroke-width="0.5"/>
+          <line x1="40" y1="4" x2="40" y2="76" stroke="#00AFFF" stroke-width="0.5"/>
+          <line x1="4" y1="40" x2="76" y2="40" stroke="#00AFFF" stroke-width="0.5"/>
+          <circle cx="40" cy="40" r="4" fill="#00AFFF"/>
+        </svg>
       </div>
-
-      <div class="card fade-up">
-        <i class="fa-solid fa-eye"></i>
-        <h3>Visão</h3>
-        <p>Ser referência tecnológica em Angola e em África através da inovação e criatividade.</p>
-      </div>
-
-      <div class="card fade-up">
-        <i class="fa-solid fa-gem"></i>
-        <h3>Valores</h3>
-        <p>Compromisso, inovação, profissionalismo, qualidade e impacto positivo na comunidade.</p>
-      </div>
-    </div>
-  </section>
-
-  <section id="servicos">
-    <div class="section-title fade-up">
-      <span>Serviços</span>
-      <h2>Soluções tecnológicas premium</h2>
-    </div>
-
-    <div class="grid">
-      <div class="card fade-up">
-        <i class="fa-solid fa-code"></i>
-        <h3>Desenvolvimento Web</h3>
-        <p>Websites e plataformas modernas, rápidas e responsivas para empresas e startups.</p>
-      </div>
-
-      <div class="card fade-up">
-        <i class="fa-solid fa-mobile-screen"></i>
-        <h3>Aplicativos</h3>
-        <p>Aplicações móveis intuitivas e modernas focadas na melhor experiência do utilizador.</p>
-      </div>
-
-      <div class="card fade-up">
-        <i class="fa-solid fa-building"></i>
-        <h3>Sistemas Empresariais</h3>
-        <p>Sistemas inteligentes para optimizar processos empresariais e aumentar produtividade.</p>
-      </div>
-
-      <div class="card fade-up">
-        <i class="fa-solid fa-pen-ruler"></i>
-        <h3>UI/UX Design</h3>
-        <p>Interfaces modernas, elegantes e pensadas para proporcionar experiências premium.</p>
+      <div class="project-content">
+        <div class="project-cat">Inteligência Artificial</div>
+        <div class="project-title">IA Escolar — Instituto Médio Sanda Ana</div>
+        <div class="project-desc">
+          Sistema inteligente desenvolvido para auxiliar alunos e encarregados de educação. 
+          Oferece tutoria personalizada, acompanhamento de desempenho académico e comunicação 
+          directa com professores via IA conversacional.
+        </div>
+        <div class="project-meta">
+          <span class="project-year">2026</span>
+          <div class="project-icon-link"><i class="fas fa-arrow-right"></i></div>
+        </div>
       </div>
     </div>
-  </section>
 
-  <section id="projectos">
-    <div class="section-title fade-up">
-      <span>Projectos</span>
-      <h2>Inovação aplicada em soluções reais</h2>
-    </div>
-
-    <div class="grid">
-      <div class="card project-card fade-up">
-        <i class="fa-solid fa-robot"></i>
-        <h3>IA Escolar</h3>
-        <p>Sistema inteligente criado para auxiliar alunos e encarregados de educação do Instituto Médio Santa Ana e Noesa.</p>
+    <!-- PROJECT 2 -->
+    <div class="project-card fade-up fade-up-delay-1">
+      <div class="project-bg project-bg-2"></div>
+      <div class="proj-deco">
+        <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="10" y="10" width="60" height="60" stroke="#38BDF8" stroke-width="1"/>
+          <rect x="22" y="22" width="36" height="36" stroke="#38BDF8" stroke-width="0.5"/>
+          <circle cx="40" cy="40" r="8" fill="#38BDF8"/>
+        </svg>
       </div>
-
-      <div class="card project-card fade-up">
-        <i class="fa-solid fa-cart-shopping"></i>
-        <h3>Marketplace</h3>
-        <p>Plataforma moderna onde alunos podem publicar e vender produtos de forma prática.</p>
-      </div>
-
-      <div class="card project-card fade-up">
-        <i class="fa-solid fa-gamepad"></i>
-        <h3> Ngola: A Origem da Terra Abençoada</h3>
-        <p>Jogo educativo focado na história de Angola antes da chegada dos portugueses.</p>
+      <div class="project-content">
+        <div class="project-cat">E-Commerce</div>
+        <div class="project-title">Marketplace Estudantil</div>
+        <div class="project-desc">
+          Plataforma onde alunos publicam e vendem produtos.
+        </div>
+        <div class="project-meta">
+          <span class="project-year">2026</span>
+          <div class="project-icon-link"><i class="fas fa-arrow-right"></i></div>
+        </div>
       </div>
     </div>
-  </section>
 
-  <section>
-    <div class="section-title fade-up">
-      <span>FAQ</span>
-      <h2>Perguntas Frequentes</h2>
-    </div>
-
-    <div class="faq">
-      <div class="faq-item fade-up">
-        <div class="faq-question">Quais serviços a Clever Innovaction oferece? <span>+</span></div>
-        <div class="faq-answer">Oferecemos desenvolvimento web, aplicativos, sistemas empresariais, UI/UX Design e soluções tecnológicas inteligentes.</div>
+    <!-- PROJECT 3 -->
+    <div class="project-card fade-up fade-up-delay-2">
+      <div class="project-bg project-bg-3"></div>
+      <div class="proj-deco">
+        <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="40,8 72,24 72,56 40,72 8,56 8,24" stroke="#00AFFF" stroke-width="1" fill="none"/>
+          <polygon points="40,20 60,30 60,50 40,60 20,50 20,30" stroke="#00AFFF" stroke-width="0.5" fill="none"/>
+          <circle cx="40" cy="40" r="6" fill="#00AFFF"/>
+        </svg>
       </div>
-
-      <div class="faq-item fade-up">
-        <div class="faq-question">A empresa trabalha com projectos personalizados? <span>+</span></div>
-        <div class="faq-answer">Sim. Desenvolvemos soluções adaptadas às necessidades específicas de cada cliente.</div>
+      <div class="project-content">
+        <div class="project-cat">Edutainment · Jogo</div>
+        <div class="project-title">Ngola: A Origem da Terra Abençoada</div>
+        <div class="project-desc">
+          Jogo educativo sobre a história de Angola.
+        </div>
+        <div class="project-meta">git
+          <span class="project-year">2026</span>
+          <div class="project-icon-link"><i class="fas fa-arrow-right"></i></div>
+        </div>
       </div>
-
-      <div class="faq-item fade-up">
-        <div class="faq-question">Como posso entrar em contacto? <span>+</span></div>
-        <div class="faq-answer">Pode entrar em contacto através do formulário, WhatsApp ou redes sociais.</div>
-      </div> Origem
     </div>
-  </section>
+  </div>
+</section>
 
-  <section id="contacto">
-    <div class="section-title fade-up">
-      <span>Contacto</span>
-      <h2>Vamos construir o futuro juntos</h2>
+<!-- FAQ -->
+<section id="faq">
+  <div class="faq-layout">
+    <div class="faq-side fade-up">
+      <div class="section-tag">FAQ</div>
+      <h2 class="section-h2">Perguntas<br>frequentes.</h2>
+      <p class="section-desc">
+        Não encontrou o que procurava? Fale directamente connosco.
+      </p>
+      <a href="#contato" class="faq-contact-link">
+        Contactar <i class="fas fa-arrow-right"></i>
+      </a>
     </div>
+    <div class="faq-list fade-up fade-up-delay-1">
+      <div class="faq-item">
+        <button class="faq-q">
+          Quanto tempo leva a desenvolver um projecto?
+          <div class="faq-icon"><i class="fas fa-plus"></i></div>
+        </button>
+        <div class="faq-a"><p>O prazo varia consoante a complexidade do projecto. Um website institucional leva entre 2 a 4 semanas. Um sistema empresarial ou aplicativo pode levar de 2 a 6 meses. Fornecemos sempre um cronograma detalhado antes do início do trabalho.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">
+          Trabalham com clientes fora de Angola?
+          <div class="faq-icon"><i class="fas fa-plus"></i></div>
+        </button>
+        <div class="faq-a"><p>Sim! Embora tenhamos sede em Angola, trabalhamos com clientes em toda África e internacionalmente. As nossas comunicações são maioritariamente remotas, com reuniões regulares via vídeo-chamada e relatórios de progresso semanais.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">
+          Oferecem suporte pós-lançamento?
+          <div class="faq-icon"><i class="fas fa-plus"></i></div>
+        </button>
+        <div class="faq-a"><p>Absolutamente. Todos os nossos projectos incluem um período de garantia e oferecemos planos de manutenção mensal que incluem actualizações de segurança, monitorização, backups e suporte técnico prioritário.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">
+          Como funciona o processo de pagamento?
+          <div class="faq-icon"><i class="fas fa-plus"></i></div>
+        </button>
+        <div class="faq-a"><p>Trabalhamos com um modelo faseado: 40% no início do projecto, 30% a meio e 30% na entrega final. Para projectos maiores, podem ser acordadas estruturas de pagamento personalizadas. Aceitamos transferência bancária e pagamentos via sistema angolano.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">
+          Posso ver o progresso durante o desenvolvimento?
+          <div class="faq-icon"><i class="fas fa-plus"></i></div>
+        </button>
+        <div class="faq-a"><p>Sim. Utilizamos metodologias ágeis com sprints quinzenais. Tem acesso a um portal de projecto onde pode acompanhar o progresso, dar feedback e comunicar directamente com a equipa em tempo real.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">
+          Desenvolvem soluções com Inteligência Artificial?
+          <div class="faq-icon"><i class="fas fa-plus"></i></div>
+        </button>
+        <div class="faq-a"><p>Sim. A IA é uma das nossas áreas de crescimento prioritário. Desenvolvemos sistemas de IA conversacional, análise preditiva, processamento de linguagem natural e automação inteligente, adaptados às necessidades específicas de cada cliente.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <div class="contact-box">
-      <div class="card fade-up">
-        <h3>Entre em contacto</h3>
-        <p style="margin: 20px 0; color: rgba(255,255,255,0.7);">
-          Fale connosco para transformar ideias em soluções digitais modernas.
+<!-- CONTATO -->
+<section id="contato">
+  <div class="contato-grid">
+    <div class="contato-info fade-up">
+      <div>
+        <div class="section-tag">Contacto</div>
+        <h2 class="section-h2">Vamos construir<br>algo juntos.</h2>
+        <p class="section-desc">
+          Tem um projecto em mente? Estamos prontos para transformar a sua visão em realidade.
         </p>
+      </div>
 
-        <div class="socials" style="justify-content: flex-start;">
-          <a href="#"><i class="fab fa-instagram"></i></a>
-          <a href="#"><i class="fab fa-facebook-f"></i></a>
-          <a href="#"><i class="fab fa-linkedin-in"></i></a>
-          <a href="#"><i class="fab fa-github"></i></a>
+      <div class="contact-item">
+        <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+        <div class="contact-text">
+          <p>Localização</p>
+          <p>Luanda, Angola</p>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+        <div class="contact-text">
+          <p>Email</p>
+          <p> cleverinnovaction@gmail.com</p> orige
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon"><i class="fab fa-whatsapp"></i></div>
+        <div class="contact-text">
+          <p>WhatsApp</p>
+          <p>244929821547</p>
         </div>
       </div>
 
-      <div class="card fade-up">
-        <form>
-          <input type="text" placeholder="Seu nome">
-          <input type="email" placeholder="Seu email">
-          <textarea placeholder="Digite a sua mensagem"></textarea>
-          <button class="btn btn-primary">Enviar Mensagem</button>
-        </form>
+      <div>
+        <div class="section-tag" style="margin-bottom:16px">Redes Sociais</div>
+        <div class="social-row">
+          <!-- Monica e clauberto Adicionem as nossas redes socias aqui na hancora exemplo a href="faceboc.com" -->
+          <a href="" class="social-btn" title="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="" class="social-btn" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="" class="social-btn" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+          <a href="" class="social-btn" title="GitHub"><i class="fab fa-github"></i></a>
+        </div>
       </div>
     </div>
-  </section>
 
-  <footer>
-    <h3>Clever Innovaction</h3>
-    <p>Inovação e Criatividade</p>
+    <div class="fade-up fade-up-delay-1">
+      <div class="contact-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Nome</label>
+            <input type="text" placeholder="O seu nome">
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" placeholder="email@empresa.com">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Empresa</label>
+          <input type="text" placeholder="Nome da empresa (opcional)">
+        </div>
+        <div class="form-group">
+          <label>Serviço de Interesse</label>
+          <select>
+            <option value="" disabled selected>Seleccionar serviço...</option>
+            <option>Desenvolvimento Web</option>
+            <option>Aplicativo Móvel</option>
+            <option>Sistema Empresarial</option>
+            <option>UI/UX Design</option>
+            <option>Outro</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Mensagem</label>
+          <textarea placeholder="Descreva o seu projecto ou necessidade..."></textarea>
+        </div>
+        <button class="btn-submit" onclick="handleSubmit(event)">
+          Enviar Mensagem <i class="fas fa-arrow-right" style="margin-left:8px"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <div class="socials">
-      <a href="#"><i class="fab fa-instagram"></i></a>
-      <a href="#"><i class="fab fa-facebook-f"></i></a>
-      <a href="#"><i class="fab fa-linkedin-in"></i></a>
-      <a href="#"><i class="fab fa-github"></i></a>
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <a href="#" class="nav-logo">
+        <div class="nav-logo-icon">
+          <svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" fill="none">
+            <defs>
+              <linearGradient id="logoGradFooter" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#38BDF8"/><stop offset="100%" stop-color="#00AFFF"/>
+              </linearGradient>
+            </defs>
+            <path d="M38 12 C26 12, 14 20, 14 30 C14 40, 26 48, 38 48" stroke="url(#logoGradFooter)" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+            <circle cx="38" cy="30" r="4" fill="#00AFFF"/>
+            <circle cx="14" cy="30" r="2" fill="#38BDF8"/>
+          </svg>
+        </div>
+        <span class="nav-logo-text">Clever <span>Innovaction</span></span>
+      </a>
+      <p>
+        Startup angolana especializada em soluções digitais inovadoras. 
+        Transformamos ideias em tecnologia que impacta.
+      </p>
+      <div class="footer-social">
+        <a href="#" class="social-btn" title="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="#" class="social-btn" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" class="social-btn" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+        <a href="#" class="social-btn" title="GitHub"><i class="fab fa-github"></i></a>
+      </div>
     </div>
 
-    <p style="margin-top: 25px;">© 2026 Clever Innovaction. Todos os direitos reservados.</p>
-  </footer>
+    <div class="footer-col">
+      <h4>Empresa</h4>
+      <ul>
+        <li><a href="#sobre">Sobre Nós</a></li>
+        <li><a href="#projectos">Projectos</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#contato">Contacto</a></li>
+      </ul>
+    </div>
 
-   <a href="https://wa.me/244929821547?text=Olá%20quero%20mais%20informações%20sobre%20a%20clever" target="_blank" class="whatsapp">
-   <i class="fab fa-whatsapp"></i>
-</a>
-    
+    <div class="footer-col">
+      <h4>Serviços</h4>
+      <ul>
+        <li><a href="#servicos">Web Design</a></li>
+        <li><a href="#servicos">Aplicativos</a></li>
+        <li><a href="#servicos">Sistemas ERP</a></li>
+        <li><a href="#servicos">UI/UX Design</a></li>
+      </ul>
+    </div>
 
-  <script>
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if(entry.isIntersecting) {
-          entry.target.classList.add('show');
-        }
-      });
-    }, { threshold: 0.15 });
+    <div class="footer-col">
+      <h4>Contacto</h4>
+      <ul>
+        <li><a href="cleverinnovaction@gmail.com">cleverinnovaction@gmail.com</li>
+        <li><a href="https://">244929821547</a></li>
+        <li><a href="#">Luanda, Angola</a></li>
+      </ul>
+    </div>
+  </div>
+  <!-- WHATSAPP FLOAT -->
 
-    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+  <div class="footer-bottom">
+    <p class="footer-copy">© 2026 Clever Innovaction. Todos os direitos reservados.</p>
+    <div class="footer-status">
+      <span class="status-dot"></span>
+      Todos os sistemas operacionais
+    </div>
+  </div>
+</footer>
 
-    const faqQuestions = document.querySelectorAll('.faq-question');
+<script>
+// === CUSTOM CURSOR ===
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursorRing');
+let mx = 0, my = 0, rx = 0, ry = 0;
 
-    faqQuestions.forEach(question => {
-      question.addEventListener('click', () => {
-        const answer = question.nextElementSibling;
-        answer.style.display = answer.style.display === 'block' ? 'none' : 'block';
-      });
-    });
-  </script>
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  cursor.style.left = mx - 4 + 'px';
+  cursor.style.top = my - 4 + 'px';
+});
+
+function animateRing() {
+  rx += (mx - rx - 18) * 0.12;
+  ry += (my - ry - 18) * 0.12;
+  ring.style.left = rx + 'px';
+  ring.style.top = ry + 'px';
+  requestAnimationFrame(animateRing);
+}
+animateRing();
+
+document.querySelectorAll('a, button, .service-card, .project-card, .value-card, .faq-q').forEach(el => {
+  el.addEventListener('mouseenter', () => ring.classList.add('hovering'));
+  el.addEventListener('mouseleave', () => ring.classList.remove('hovering'));
+});
+
+// === NAVBAR SCROLL ===
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  navbar.classList.toggle('scrolled', window.scrollY > 60);
+});
+
+// === HAMBURGER ===
+document.getElementById('hamburger').addEventListener('click', () => {
+  document.getElementById('mobileMenu').classList.add('open');
+});
+document.getElementById('mobileClose').addEventListener('click', () => {
+  document.getElementById('mobileMenu').classList.remove('open');
+});
+function closeMobile() {
+  document.getElementById('mobileMenu').classList.remove('open');
+}
+
+// === CANVAS PARTICLES ===
+const canvas = document.getElementById('heroCanvas');
+const ctx = canvas.getContext('2d');
+
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+const particles = [];
+const NUM = 120;
+
+for (let i = 0; i < NUM; i++) {
+  particles.push({
+    x: Math.random() * window.innerWidth,
+    y: Math.random() * window.innerHeight,
+    r: Math.random() * 1.5 + 0.3,
+    vx: (Math.random() - 0.5) * 0.3,
+    vy: (Math.random() - 0.5) * 0.3,
+    alpha: Math.random() * 0.6 + 0.1
+  });
+}
+
+let mouseX = canvas.width / 2, mouseY = canvas.height / 2;
+canvas.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; });
+
+function drawParticles() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // Draw connections
+  for (let i = 0; i < particles.length; i++) {
+    for (let j = i + 1; j < particles.length; j++) {
+      const dx = particles[i].x - particles[j].x;
+      const dy = particles[i].y - particles[j].y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < 120) {
+        ctx.beginPath();
+        ctx.strokeStyle = `rgba(0,175,255,${0.06 * (1 - dist / 120)})`;
+        ctx.lineWidth = 0.5;
+        ctx.moveTo(particles[i].x, particles[i].y);
+        ctx.lineTo(particles[j].x, particles[j].y);
+        ctx.stroke();
+      }
+    }
+  }
+
+  // Draw particles
+  particles.forEach(p => {
+    // Mouse interaction
+    const dx = p.x - mouseX;
+    const dy = p.y - mouseY;
+    const dist = Math.sqrt(dx * dx + dy * dy);
+    if (dist < 150) {
+      p.vx += dx / dist * 0.05;
+      p.vy += dy / dist * 0.05;
+    }
+
+    p.vx *= 0.99;
+    p.vy *= 0.99;
+    p.x += p.vx;
+    p.y += p.vy;
+
+    if (p.x < 0) p.x = canvas.width;
+    if (p.x > canvas.width) p.x = 0;
+    if (p.y < 0) p.y = canvas.height;
+    if (p.y > canvas.height) p.y = 0;
+
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(0,175,255,${p.alpha})`;
+    ctx.fill();
+  });
+
+  requestAnimationFrame(drawParticles);
+}
+drawParticles();
+
+// === SCROLL ANIMATIONS ===
+const fadeEls = document.querySelectorAll('.fade-up');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('visible'); }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+fadeEls.forEach(el => observer.observe(el));
+
+// === COUNT UP STATS ===
+function countUp(el, target) {
+  let start = 0;
+  const suffix = el.dataset.suffix || '';
+  const step = target / 60;
+  const timer = setInterval(() => {
+    start = Math.min(start + step, target);
+    el.textContent = Math.floor(start) + suffix;
+    if (start >= target) clearInterval(timer);
+  }, 20);
+}
+
+const statObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const num = e.target.querySelector('.stat-num');
+      if (num && !num.dataset.counted) {
+        num.dataset.counted = true;
+        const target = parseInt(num.dataset.count);
+        const suffix = num.dataset.suffix || (num.dataset.count === '98' ? '%' : '+');
+        num.dataset.suffix = suffix;
+        countUp(num, target);
+      }
+    }
+  });
+}, { threshold: 0.5 });
+
+document.querySelectorAll('.stat-item').forEach(el => statObserver.observe(el));
+
+// === FAQ ACCORDION ===
+document.querySelectorAll('.faq-q').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const item = btn.closest('.faq-item');
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  });
+});
+
+// === SERVICE CARD MOUSE GLOW ===
+document.querySelectorAll('.service-card').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const rect = card.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    const y = ((e.clientY - rect.top) / rect.height) * 100;
+    card.style.setProperty('--mx', x + '%');
+    card.style.setProperty('--my', y + '%');
+  });
+});
+
+// === FORM SUBMIT ===
+function handleSubmit(e) {
+  e.preventDefault();
+  const btn = e.target;
+  btn.innerHTML = '<i class="fas fa-check" style="margin-right:8px"></i> Mensagem Enviada!';
+  btn.style.background = '#22c55e';
+  setTimeout(() => {
+    btn.innerHTML = 'Enviar Mensagem <i class="fas fa-arrow-right" style="margin-left:8px"></i>';
+    btn.style.background = '';
+  }, 3000);
+}
+
+// === SMOOTH SCROLL FOR ANCHOR LINKS ===
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function (e) {
+    const target = document.querySelector(this.getAttribute('href'));
+    if (target) {
+      e.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+});
+</script>
 </body>
 </html>
